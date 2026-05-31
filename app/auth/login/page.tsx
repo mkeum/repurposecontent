@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { Github, Chrome, Loader2 } from "lucide-react";
+import { Globe, ExternalLink, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -68,7 +68,7 @@ export default function LoginPage() {
             type="button"
             onClick={() => signIn("github", { callbackUrl: "/dashboard" })}
           >
-            <Github className="mr-2 h-4 w-4" />
+            <Globe className="mr-2 h-4 w-4" />
             GitHub
           </Button>
           <Button
@@ -76,7 +76,7 @@ export default function LoginPage() {
             type="button"
             onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
           >
-            <Chrome className="mr-2 h-4 w-4" />
+            <ExternalLink className="mr-2 h-4 w-4" />
             Google
           </Button>
         </div>

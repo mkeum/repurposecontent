@@ -5,11 +5,9 @@ import {
   BarChart3, 
   CheckCircle2, 
   FileText, 
-  Linkedin, 
   Mail, 
   MessageSquare, 
   Search, 
-  Twitter 
 } from "lucide-react";
 
 export default function Home() {
@@ -55,13 +53,11 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <FeatureCard 
-              icon={<Linkedin className="text-blue-700" />}
+              icon={<Globe className="text-blue-700" />}
               title="LinkedIn Posts"
               description="High-engagement LinkedIn content that builds your professional authority."
             />
             <FeatureCard 
-              icon={<Twitter className="text-blue-400" />}
-              title="X (Twitter) Threads"
               description="Compelling threads that break down your content into viral bites."
             />
             <FeatureCard 

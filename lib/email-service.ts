@@ -6,10 +6,7 @@ const FROM_EMAIL = "RepurposeContent <hello@repurposecontent.com>";
 
 export const emailService = {
   sendWelcome: async (email: string, name: string) => {
-    // ...
-  },
-  sendOnboarding: async (email: string, name: string, step: number) => {
-    const template = onboardingEmail(name, step);
+    const template = welcomeEmail(name);
     return await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
@@ -17,17 +14,9 @@ export const emailService = {
       html: template.html,
     });
   },
-  // ... other methods
-    const template = supportReplyEmail(name, reply);
-    return await resend.emails.send({
-      from: "Support <support@repurposecontent.com>",
-      to: email,
-      subject: template.subject,
-      html: template.html,
-    });
-  },
-  sendWelcome: async (email: string, name: string) => {
-    const template = welcomeEmail(name);
+
+  sendOnboarding: async (email: string, name: string, step: number) => {
+    const template = onboardingEmail(name, step);
     return await resend.emails.send({
       from: FROM_EMAIL,
       to: email,
@@ -56,8 +45,18 @@ export const emailService = {
     });
   },
 
+  sendSupportReply: async (email: string, name: string, reply: string) => {
+    const template = supportReplyEmail(name, reply);
+    return await resend.emails.send({
+      from: "Support <support@repurposecontent.com>",
+      to: email,
+      subject: template.subject,
+      html: template.html,
+    });
+  },
+
   sendSupportTicketNotification: async (email: string, subject: string, message: string) => {
-     return await resend.emails.send({
+    return await resend.emails.send({
       from: "Support <support@repurposecontent.com>",
       to: email,
       subject: `Confirmation: ${subject}`,
