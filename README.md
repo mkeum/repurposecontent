@@ -22,6 +22,31 @@ Automatically transform your content into a full suite of marketing materials.
 - **Styling:** Tailwind CSS + shadcn/ui
 - **Testing:** Vitest
 
+## Architecture
+
+```mermaid
+graph TD
+    User((User)) --> Web[Next.js App Router]
+    Web --> Auth[Auth.js / NextAuth]
+    Web --> DB[(PostgreSQL / Drizzle)]
+    Web --> AI[OpenAI GPT-4o-mini]
+    Web --> Stripe[Stripe Billing]
+    Web --> Resend[Resend Emails]
+    Stripe --> Web[Webhooks]
+```
+
+## API Documentation
+
+The Business plan includes API access. All requests must include an `x-api-key` header.
+
+### Endpoints
+
+- `POST /api/content/repurpose`: Submit content for transformation.
+- `GET /api/content/list`: Retrieve your repurposed content.
+- `GET /api/usage`: Check your current monthly quota.
+
+Full documentation is available in the Business Dashboard.
+
 ## Getting Started
 
 ### Prerequisites

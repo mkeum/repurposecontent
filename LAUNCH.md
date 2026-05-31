@@ -56,3 +56,14 @@ Follow these steps to ensure a smooth transition to production.
 - [ ] Monitor MRR in the Admin Dashboard.
 - [ ] Check support tickets for any user friction.
 - [ ] Regularly review audit logs for suspicious activity.
+
+## 6. GDPR Compliance Checklist
+
+- [ ] Data processing agreement (DPA) signed with sub-processors (Stripe, OpenAI, Resend).
+- [ ] Privacy Policy explicitly lists all data collected and its purpose.
+- [ ] Cookie consent banner implemented for users in the EU.
+- [ ] Mechanism for users to request data deletion (GDPR Right to Erasure).
+- [ ] Mechanism for users to export their data (GDPR Right to Data Portability).
+- [ ] Data is stored securely and access is restricted to necessary personnel.
+- [ ] Breach notification procedure is in place.
+
