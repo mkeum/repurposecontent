@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PricingSection } from "@/components/pricing-section";
-import { 
-  BarChart3, 
-  CheckCircle2, 
-  FileText, 
-  Mail, 
-  MessageSquare, 
-  Search, 
+import {
+  BarChart3,
+  CheckCircle2,
+  FileText,
+  Globe,
+  Hash,
+  Mail,
+  MessageSquare,
+  Search,
 } from "lucide-react";
 
 export default function Home() {
@@ -58,6 +60,8 @@ export default function Home() {
               description="High-engagement LinkedIn content that builds your professional authority."
             />
             <FeatureCard 
+              icon={<Hash className="text-blue-400" />}
+              title="X (Twitter) Threads"
               description="Compelling threads that break down your content into viral bites."
             />
             <FeatureCard 
@@ -115,4 +119,3 @@ function FeatureCard({ icon, title, description }: { icon: React.ReactNode, titl
     </div>
   );
 }
-
