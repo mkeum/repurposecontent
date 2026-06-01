@@ -26,9 +26,9 @@ export async function POST(req: Request) {
   const session = event.data.object as Stripe.Checkout.Session;
 
   if (event.type === "checkout.session.completed") {
-    const subscription = await stripe.subscriptions.retrieve(
+    const sub = await stripe.subscriptions.retrieve(
       session.subscription as string
-    );
+    ) as Stripe.Subscription;
 
     if (!session?.metadata?.userId) {
       return new NextResponse("User id is required", { status: 400 });
@@ -37,31 +37,31 @@ export async function POST(req: Request) {
     await db.insert(subscriptions).values({
       id: crypto.randomUUID(),
       userId: session.metadata.userId,
-      stripeSubscriptionId: subscription.id,
-      stripeCustomerId: subscription.customer as string,
-      stripePriceId: subscription.items.data[0].price.id,
-      status: subscription.status as any,
-      currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+      stripeSubscriptionId: sub.id,
+      stripeCustomerId: sub.customer as string,
+      stripePriceId: sub.items.data[0].price.id,
+      status: sub.status as any,
+      currentPeriodEnd: new Date(sub.current_period_end * 1000),
     });
   }
 
   if (event.type === "invoice.paid") {
-    const subscription = await stripe.subscriptions.retrieve(
+    const sub = await stripe.subscriptions.retrieve(
       session.subscription as string
-    );
+    ) as Stripe.Subscription;
 
     await db
       .update(subscriptions)
       .set({
-        stripePriceId: subscription.items.data[0].price.id,
-        currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+        stripePriceId: sub.items.data[0].price.id,
+        currentPeriodEnd: new Date(sub.current_period_end * 1000),
       })
-      .where(eq(subscriptions.stripeSubscriptionId, subscription.id));
+      .where(eq(subscriptions.stripeSubscriptionId, sub.id));
 
     const [user] = await db
       .select()
       .from(users)
-      .where(eq(users.stripeCustomerId, subscription.customer as string));
+      .where(eq(users.stripeCustomerId, sub.customer as string));
 
     if (user && user.email) {
       const invoice = event.data.object as Stripe.Invoice;
@@ -70,24 +70,24 @@ export async function POST(req: Request) {
   }
 
   if (event.type === "customer.subscription.updated" || event.type === "customer.subscription.deleted") {
-    const subscription = event.data.object as Stripe.Subscription;
+    const sub = event.data.object as Stripe.Subscription;
 
     await db
       .update(subscriptions)
       .set({
-        status: subscription.status as any,
-        stripePriceId: subscription.items.data[0].price.id,
-        currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+        status: sub.status as any,
+        stripePriceId: sub.items.data[0].price.id,
+        currentPeriodEnd: new Date(sub.current_period_end * 1000),
       })
-      .where(eq(subscriptions.stripeSubscriptionId, subscription.id));
+      .where(eq(subscriptions.stripeSubscriptionId, sub.id));
 
     const [user] = await db
       .select()
       .from(users)
-      .where(eq(users.stripeCustomerId, subscription.customer as string));
+      .where(eq(users.stripeCustomerId, sub.customer as string));
 
     if (user && user.email) {
-      await emailService.sendSubscriptionUpdate(user.email, subscription.status);
+      await emailService.sendSubscriptionUpdate(user.email, sub.status);
     }
   }
 
