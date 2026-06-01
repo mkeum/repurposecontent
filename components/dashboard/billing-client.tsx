@@ -63,9 +63,9 @@ export function BillingClient({
               Manage Subscription
             </Button>
           ) : (
-            <Button asChild>
-              <a href="/#pricing">Upgrade Plan</a>
-            </Button>
+            <a href="/#pricing">
+              <Button>Upgrade Plan</Button>
+            </a>
           )}
         </div>
 
